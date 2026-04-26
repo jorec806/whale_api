@@ -1,0 +1,7 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+AGENTS.md
+whale_api_codex_context_final.md
+test.py

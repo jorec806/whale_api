@@ -1,0 +1,652 @@
+[
+  {
+    "year": 1957,
+    "source_year_midpoint": 1957.5,
+    "world_ohc_zj": -9.303,
+    "world_ohc_se_zj": 2.025,
+    "northern_hemisphere_ohc_zj": -3.149,
+    "northern_hemisphere_ohc_se_zj": 0.925,
+    "southern_hemisphere_ohc_zj": -6.153,
+    "southern_hemisphere_ohc_se_zj": 1.1
+  },
+  {
+    "year": 1958,
+    "source_year_midpoint": 1958.5,
+    "world_ohc_zj": -8.059,
+    "world_ohc_se_zj": 2.017,
+    "northern_hemisphere_ohc_zj": -2.321,
+    "northern_hemisphere_ohc_se_zj": 0.851,
+    "southern_hemisphere_ohc_zj": -5.738,
+    "southern_hemisphere_ohc_se_zj": 1.166
+  },
+  {
+    "year": 1959,
+    "source_year_midpoint": 1959.5,
+    "world_ohc_zj": -8.713,
+    "world_ohc_se_zj": 2.036,
+    "northern_hemisphere_ohc_zj": -2.505,
+    "northern_hemisphere_ohc_se_zj": 0.824,
+    "southern_hemisphere_ohc_zj": -6.208,
+    "southern_hemisphere_ohc_se_zj": 1.212
+  },
+  {
+    "year": 1960,
+    "source_year_midpoint": 1960.5,
+    "world_ohc_zj": -5.479,
+    "world_ohc_se_zj": 1.893,
+    "northern_hemisphere_ohc_zj": -1.587,
+    "northern_hemisphere_ohc_se_zj": 0.746,
+    "southern_hemisphere_ohc_zj": -3.892,
+    "southern_hemisphere_ohc_se_zj": 1.148
+  },
+  {
+    "year": 1961,
+    "source_year_midpoint": 1961.5,
+    "world_ohc_zj": -4.762,
+    "world_ohc_se_zj": 1.773,
+    "northern_hemisphere_ohc_zj": -1.936,
+    "northern_hemisphere_ohc_se_zj": 0.711,
+    "southern_hemisphere_ohc_zj": -2.826,
+    "southern_hemisphere_ohc_se_zj": 1.061
+  },
+  {
+    "year": 1962,
+    "source_year_midpoint": 1962.5,
+    "world_ohc_zj": -4.121,
+    "world_ohc_se_zj": 1.728,
+    "northern_hemisphere_ohc_zj": -2.022,
+    "northern_hemisphere_ohc_se_zj": 0.645,
+    "southern_hemisphere_ohc_zj": -2.1,
+    "southern_hemisphere_ohc_se_zj": 1.082
+  },
+  {
+    "year": 1963,
+    "source_year_midpoint": 1963.5,
+    "world_ohc_zj": -5.697,
+    "world_ohc_se_zj": 1.815,
+    "northern_hemisphere_ohc_zj": -2.209,
+    "northern_hemisphere_ohc_se_zj": 0.678,
+    "southern_hemisphere_ohc_zj": -3.487,
+    "southern_hemisphere_ohc_se_zj": 1.137
+  },
+  {
+    "year": 1964,
+    "source_year_midpoint": 1964.5,
+    "world_ohc_zj": -6.521,
+    "world_ohc_se_zj": 1.733,
+    "northern_hemisphere_ohc_zj": -2.395,
+    "northern_hemisphere_ohc_se_zj": 0.581,
+    "southern_hemisphere_ohc_zj": -4.125,
+    "southern_hemisphere_ohc_se_zj": 1.152
+  },
+  {
+    "year": 1965,
+    "source_year_midpoint": 1965.5,
+    "world_ohc_zj": -7.218,
+    "world_ohc_se_zj": 1.741,
+    "northern_hemisphere_ohc_zj": -2.763,
+    "northern_hemisphere_ohc_se_zj": 0.561,
+    "southern_hemisphere_ohc_zj": -4.455,
+    "southern_hemisphere_ohc_se_zj": 1.179
+  },
+  {
+    "year": 1966,
+    "source_year_midpoint": 1966.5,
+    "world_ohc_zj": -9.122,
+    "world_ohc_se_zj": 1.664,
+    "northern_hemisphere_ohc_zj": -2.807,
+    "northern_hemisphere_ohc_se_zj": 0.543,
+    "southern_hemisphere_ohc_zj": -6.315,
+    "southern_hemisphere_ohc_se_zj": 1.121
+  },
+  {
+    "year": 1967,
+    "source_year_midpoint": 1967.5,
+    "world_ohc_zj": -9.059,
+    "world_ohc_se_zj": 1.619,
+    "northern_hemisphere_ohc_zj": -3.514,
+    "northern_hemisphere_ohc_se_zj": 0.503,
+    "southern_hemisphere_ohc_zj": -5.545,
+    "southern_hemisphere_ohc_se_zj": 1.116
+  },
+  {
+    "year": 1968,
+    "source_year_midpoint": 1968.5,
+    "world_ohc_zj": -8.991,
+    "world_ohc_se_zj": 1.468,
+    "northern_hemisphere_ohc_zj": -3.708,
+    "northern_hemisphere_ohc_se_zj": 0.399,
+    "southern_hemisphere_ohc_zj": -5.283,
+    "southern_hemisphere_ohc_se_zj": 1.069
+  },
+  {
+    "year": 1969,
+    "source_year_midpoint": 1969.5,
+    "world_ohc_zj": -7.62,
+    "world_ohc_se_zj": 1.375,
+    "northern_hemisphere_ohc_zj": -3.718,
+    "northern_hemisphere_ohc_se_zj": 0.34,
+    "southern_hemisphere_ohc_zj": -3.902,
+    "southern_hemisphere_ohc_se_zj": 1.034
+  },
+  {
+    "year": 1970,
+    "source_year_midpoint": 1970.5,
+    "world_ohc_zj": -6.838,
+    "world_ohc_se_zj": 1.312,
+    "northern_hemisphere_ohc_zj": -3.707,
+    "northern_hemisphere_ohc_se_zj": 0.306,
+    "southern_hemisphere_ohc_zj": -3.131,
+    "southern_hemisphere_ohc_se_zj": 1.005
+  },
+  {
+    "year": 1971,
+    "source_year_midpoint": 1971.5,
+    "world_ohc_zj": -5.627,
+    "world_ohc_se_zj": 1.316,
+    "northern_hemisphere_ohc_zj": -3.251,
+    "northern_hemisphere_ohc_se_zj": 0.328,
+    "southern_hemisphere_ohc_zj": -2.376,
+    "southern_hemisphere_ohc_se_zj": 0.987
+  },
+  {
+    "year": 1972,
+    "source_year_midpoint": 1972.5,
+    "world_ohc_zj": -4.77,
+    "world_ohc_se_zj": 1.374,
+    "northern_hemisphere_ohc_zj": -2.942,
+    "northern_hemisphere_ohc_se_zj": 0.344,
+    "southern_hemisphere_ohc_zj": -1.828,
+    "southern_hemisphere_ohc_se_zj": 1.03
+  },
+  {
+    "year": 1973,
+    "source_year_midpoint": 1973.5,
+    "world_ohc_zj": -4.087,
+    "world_ohc_se_zj": 1.318,
+    "northern_hemisphere_ohc_zj": -2.413,
+    "northern_hemisphere_ohc_se_zj": 0.336,
+    "southern_hemisphere_ohc_zj": -1.674,
+    "southern_hemisphere_ohc_se_zj": 0.982
+  },
+  {
+    "year": 1974,
+    "source_year_midpoint": 1974.5,
+    "world_ohc_zj": -3.354,
+    "world_ohc_se_zj": 1.314,
+    "northern_hemisphere_ohc_zj": -2.347,
+    "northern_hemisphere_ohc_se_zj": 0.363,
+    "southern_hemisphere_ohc_zj": -1.007,
+    "southern_hemisphere_ohc_se_zj": 0.95
+  },
+  {
+    "year": 1975,
+    "source_year_midpoint": 1975.5,
+    "world_ohc_zj": -1.398,
+    "world_ohc_se_zj": 1.324,
+    "northern_hemisphere_ohc_zj": -1.528,
+    "northern_hemisphere_ohc_se_zj": 0.38,
+    "southern_hemisphere_ohc_zj": 0.13,
+    "southern_hemisphere_ohc_se_zj": 0.944
+  },
+  {
+    "year": 1976,
+    "source_year_midpoint": 1976.5,
+    "world_ohc_zj": -1.445,
+    "world_ohc_se_zj": 1.352,
+    "northern_hemisphere_ohc_zj": -1.042,
+    "northern_hemisphere_ohc_se_zj": 0.363,
+    "southern_hemisphere_ohc_zj": -0.403,
+    "southern_hemisphere_ohc_se_zj": 0.989
+  },
+  {
+    "year": 1977,
+    "source_year_midpoint": 1977.5,
+    "world_ohc_zj": -1.143,
+    "world_ohc_se_zj": 1.233,
+    "northern_hemisphere_ohc_zj": -0.497,
+    "northern_hemisphere_ohc_se_zj": 0.343,
+    "southern_hemisphere_ohc_zj": -0.646,
+    "southern_hemisphere_ohc_se_zj": 0.891
+  },
+  {
+    "year": 1978,
+    "source_year_midpoint": 1978.5,
+    "world_ohc_zj": 0.056,
+    "world_ohc_se_zj": 1.182,
+    "northern_hemisphere_ohc_zj": -0.021,
+    "northern_hemisphere_ohc_se_zj": 0.297,
+    "southern_hemisphere_ohc_zj": 0.077,
+    "southern_hemisphere_ohc_se_zj": 0.884
+  },
+  {
+    "year": 1979,
+    "source_year_midpoint": 1979.5,
+    "world_ohc_zj": 0.068,
+    "world_ohc_se_zj": 1.178,
+    "northern_hemisphere_ohc_zj": 0.589,
+    "northern_hemisphere_ohc_se_zj": 0.273,
+    "southern_hemisphere_ohc_zj": -0.521,
+    "southern_hemisphere_ohc_se_zj": 0.905
+  },
+  {
+    "year": 1980,
+    "source_year_midpoint": 1980.5,
+    "world_ohc_zj": -1.176,
+    "world_ohc_se_zj": 1.164,
+    "northern_hemisphere_ohc_zj": 0.316,
+    "northern_hemisphere_ohc_se_zj": 0.264,
+    "southern_hemisphere_ohc_zj": -1.493,
+    "southern_hemisphere_ohc_se_zj": 0.9
+  },
+  {
+    "year": 1981,
+    "source_year_midpoint": 1981.5,
+    "world_ohc_zj": -1.383,
+    "world_ohc_se_zj": 1.11,
+    "northern_hemisphere_ohc_zj": 0.469,
+    "northern_hemisphere_ohc_se_zj": 0.259,
+    "southern_hemisphere_ohc_zj": -1.852,
+    "southern_hemisphere_ohc_se_zj": 0.851
+  },
+  {
+    "year": 1982,
+    "source_year_midpoint": 1982.5,
+    "world_ohc_zj": -1.073,
+    "world_ohc_se_zj": 1.086,
+    "northern_hemisphere_ohc_zj": 1.014,
+    "northern_hemisphere_ohc_se_zj": 0.249,
+    "southern_hemisphere_ohc_zj": -2.087,
+    "southern_hemisphere_ohc_se_zj": 0.837
+  },
+  {
+    "year": 1983,
+    "source_year_midpoint": 1983.5,
+    "world_ohc_zj": -0.974,
+    "world_ohc_se_zj": 1.128,
+    "northern_hemisphere_ohc_zj": 1.034,
+    "northern_hemisphere_ohc_se_zj": 0.241,
+    "southern_hemisphere_ohc_zj": -2.009,
+    "southern_hemisphere_ohc_se_zj": 0.888
+  },
+  {
+    "year": 1984,
+    "source_year_midpoint": 1984.5,
+    "world_ohc_zj": -0.21,
+    "world_ohc_se_zj": 1.032,
+    "northern_hemisphere_ohc_zj": 0.939,
+    "northern_hemisphere_ohc_se_zj": 0.225,
+    "southern_hemisphere_ohc_zj": -1.148,
+    "southern_hemisphere_ohc_se_zj": 0.807
+  },
+  {
+    "year": 1985,
+    "source_year_midpoint": 1985.5,
+    "world_ohc_zj": 0.481,
+    "world_ohc_se_zj": 0.93,
+    "northern_hemisphere_ohc_zj": 1.184,
+    "northern_hemisphere_ohc_se_zj": 0.212,
+    "southern_hemisphere_ohc_zj": -0.703,
+    "southern_hemisphere_ohc_se_zj": 0.718
+  },
+  {
+    "year": 1986,
+    "source_year_midpoint": 1986.5,
+    "world_ohc_zj": 0.718,
+    "world_ohc_se_zj": 0.946,
+    "northern_hemisphere_ohc_zj": 1.114,
+    "northern_hemisphere_ohc_se_zj": 0.211,
+    "southern_hemisphere_ohc_zj": -0.396,
+    "southern_hemisphere_ohc_se_zj": 0.735
+  },
+  {
+    "year": 1987,
+    "source_year_midpoint": 1987.5,
+    "world_ohc_zj": 1.023,
+    "world_ohc_se_zj": 0.89,
+    "northern_hemisphere_ohc_zj": 1.03,
+    "northern_hemisphere_ohc_se_zj": 0.198,
+    "southern_hemisphere_ohc_zj": -0.007,
+    "southern_hemisphere_ohc_se_zj": 0.692
+  },
+  {
+    "year": 1988,
+    "source_year_midpoint": 1988.5,
+    "world_ohc_zj": 0.844,
+    "world_ohc_se_zj": 0.912,
+    "northern_hemisphere_ohc_zj": 0.343,
+    "northern_hemisphere_ohc_se_zj": 0.223,
+    "southern_hemisphere_ohc_zj": 0.501,
+    "southern_hemisphere_ohc_se_zj": 0.689
+  },
+  {
+    "year": 1989,
+    "source_year_midpoint": 1989.5,
+    "world_ohc_zj": 0.412,
+    "world_ohc_se_zj": 0.868,
+    "northern_hemisphere_ohc_zj": 0.363,
+    "northern_hemisphere_ohc_se_zj": 0.194,
+    "southern_hemisphere_ohc_zj": 0.05,
+    "southern_hemisphere_ohc_se_zj": 0.674
+  },
+  {
+    "year": 1990,
+    "source_year_midpoint": 1990.5,
+    "world_ohc_zj": 0.517,
+    "world_ohc_se_zj": 0.809,
+    "northern_hemisphere_ohc_zj": 0.789,
+    "northern_hemisphere_ohc_se_zj": 0.178,
+    "southern_hemisphere_ohc_zj": -0.272,
+    "southern_hemisphere_ohc_se_zj": 0.631
+  },
+  {
+    "year": 1991,
+    "source_year_midpoint": 1991.5,
+    "world_ohc_zj": 3.036,
+    "world_ohc_se_zj": 0.693,
+    "northern_hemisphere_ohc_zj": 1.012,
+    "northern_hemisphere_ohc_se_zj": 0.153,
+    "southern_hemisphere_ohc_zj": 2.024,
+    "southern_hemisphere_ohc_se_zj": 0.54
+  },
+  {
+    "year": 1992,
+    "source_year_midpoint": 1992.5,
+    "world_ohc_zj": 3.899,
+    "world_ohc_se_zj": 0.652,
+    "northern_hemisphere_ohc_zj": 1.343,
+    "northern_hemisphere_ohc_se_zj": 0.163,
+    "southern_hemisphere_ohc_zj": 2.556,
+    "southern_hemisphere_ohc_se_zj": 0.489
+  },
+  {
+    "year": 1993,
+    "source_year_midpoint": 1993.5,
+    "world_ohc_zj": 3.84,
+    "world_ohc_se_zj": 0.549,
+    "northern_hemisphere_ohc_zj": 1.694,
+    "northern_hemisphere_ohc_se_zj": 0.167,
+    "southern_hemisphere_ohc_zj": 2.146,
+    "southern_hemisphere_ohc_se_zj": 0.383
+  },
+  {
+    "year": 1994,
+    "source_year_midpoint": 1994.5,
+    "world_ohc_zj": 3.409,
+    "world_ohc_se_zj": 0.542,
+    "northern_hemisphere_ohc_zj": 2.488,
+    "northern_hemisphere_ohc_se_zj": 0.182,
+    "southern_hemisphere_ohc_zj": 0.922,
+    "southern_hemisphere_ohc_se_zj": 0.36
+  },
+  {
+    "year": 1995,
+    "source_year_midpoint": 1995.5,
+    "world_ohc_zj": 4.543,
+    "world_ohc_se_zj": 0.562,
+    "northern_hemisphere_ohc_zj": 2.588,
+    "northern_hemisphere_ohc_se_zj": 0.18,
+    "southern_hemisphere_ohc_zj": 1.955,
+    "southern_hemisphere_ohc_se_zj": 0.383
+  },
+  {
+    "year": 1996,
+    "source_year_midpoint": 1996.5,
+    "world_ohc_zj": 5.033,
+    "world_ohc_se_zj": 0.65,
+    "northern_hemisphere_ohc_zj": 3.293,
+    "northern_hemisphere_ohc_se_zj": 0.221,
+    "southern_hemisphere_ohc_zj": 1.741,
+    "southern_hemisphere_ohc_se_zj": 0.429
+  },
+  {
+    "year": 1997,
+    "source_year_midpoint": 1997.5,
+    "world_ohc_zj": 4.996,
+    "world_ohc_se_zj": 0.736,
+    "northern_hemisphere_ohc_zj": 3.238,
+    "northern_hemisphere_ohc_se_zj": 0.231,
+    "southern_hemisphere_ohc_zj": 1.758,
+    "southern_hemisphere_ohc_se_zj": 0.504
+  },
+  {
+    "year": 1998,
+    "source_year_midpoint": 1998.5,
+    "world_ohc_zj": 6.233,
+    "world_ohc_se_zj": 0.861,
+    "northern_hemisphere_ohc_zj": 3.952,
+    "northern_hemisphere_ohc_se_zj": 0.269,
+    "southern_hemisphere_ohc_zj": 2.281,
+    "southern_hemisphere_ohc_se_zj": 0.592
+  },
+  {
+    "year": 1999,
+    "source_year_midpoint": 1999.5,
+    "world_ohc_zj": 6.234,
+    "world_ohc_se_zj": 0.864,
+    "northern_hemisphere_ohc_zj": 4.048,
+    "northern_hemisphere_ohc_se_zj": 0.253,
+    "southern_hemisphere_ohc_zj": 2.186,
+    "southern_hemisphere_ohc_se_zj": 0.611
+  },
+  {
+    "year": 2000,
+    "source_year_midpoint": 2000.5,
+    "world_ohc_zj": 7.286,
+    "world_ohc_se_zj": 0.822,
+    "northern_hemisphere_ohc_zj": 4.22,
+    "northern_hemisphere_ohc_se_zj": 0.212,
+    "southern_hemisphere_ohc_zj": 3.065,
+    "southern_hemisphere_ohc_se_zj": 0.61
+  },
+  {
+    "year": 2001,
+    "source_year_midpoint": 2001.5,
+    "world_ohc_zj": 8.284,
+    "world_ohc_se_zj": 0.607,
+    "northern_hemisphere_ohc_zj": 4.771,
+    "northern_hemisphere_ohc_se_zj": 0.157,
+    "southern_hemisphere_ohc_zj": 3.513,
+    "southern_hemisphere_ohc_se_zj": 0.449
+  },
+  {
+    "year": 2002,
+    "source_year_midpoint": 2002.5,
+    "world_ohc_zj": 9.481,
+    "world_ohc_se_zj": 0.44,
+    "northern_hemisphere_ohc_zj": 5.392,
+    "northern_hemisphere_ohc_se_zj": 0.131,
+    "southern_hemisphere_ohc_zj": 4.089,
+    "southern_hemisphere_ohc_se_zj": 0.309
+  },
+  {
+    "year": 2003,
+    "source_year_midpoint": 2003.5,
+    "world_ohc_zj": 10.173,
+    "world_ohc_se_zj": 0.321,
+    "northern_hemisphere_ohc_zj": 5.909,
+    "northern_hemisphere_ohc_se_zj": 0.12,
+    "southern_hemisphere_ohc_zj": 4.264,
+    "southern_hemisphere_ohc_se_zj": 0.201
+  },
+  {
+    "year": 2004,
+    "source_year_midpoint": 2004.5,
+    "world_ohc_zj": 11.806,
+    "world_ohc_se_zj": 0.282,
+    "northern_hemisphere_ohc_zj": 6.407,
+    "northern_hemisphere_ohc_se_zj": 0.12,
+    "southern_hemisphere_ohc_zj": 5.398,
+    "southern_hemisphere_ohc_se_zj": 0.162
+  },
+  {
+    "year": 2005,
+    "source_year_midpoint": 2005.5,
+    "world_ohc_zj": 11.996,
+    "world_ohc_se_zj": 0.269,
+    "northern_hemisphere_ohc_zj": 6.856,
+    "northern_hemisphere_ohc_se_zj": 0.119,
+    "southern_hemisphere_ohc_zj": 5.14,
+    "southern_hemisphere_ohc_se_zj": 0.15
+  },
+  {
+    "year": 2006,
+    "source_year_midpoint": 2006.5,
+    "world_ohc_zj": 12.423,
+    "world_ohc_se_zj": 0.258,
+    "northern_hemisphere_ohc_zj": 7.033,
+    "northern_hemisphere_ohc_se_zj": 0.115,
+    "southern_hemisphere_ohc_zj": 5.39,
+    "southern_hemisphere_ohc_se_zj": 0.142
+  },
+  {
+    "year": 2007,
+    "source_year_midpoint": 2007.5,
+    "world_ohc_zj": 12.664,
+    "world_ohc_se_zj": 0.252,
+    "northern_hemisphere_ohc_zj": 6.895,
+    "northern_hemisphere_ohc_se_zj": 0.117,
+    "southern_hemisphere_ohc_zj": 5.768,
+    "southern_hemisphere_ohc_se_zj": 0.135
+  },
+  {
+    "year": 2008,
+    "source_year_midpoint": 2008.5,
+    "world_ohc_zj": 14.102,
+    "world_ohc_se_zj": 0.263,
+    "northern_hemisphere_ohc_zj": 7.268,
+    "northern_hemisphere_ohc_se_zj": 0.114,
+    "southern_hemisphere_ohc_zj": 6.834,
+    "southern_hemisphere_ohc_se_zj": 0.149
+  },
+  {
+    "year": 2009,
+    "source_year_midpoint": 2009.5,
+    "world_ohc_zj": 14.587,
+    "world_ohc_se_zj": 0.256,
+    "northern_hemisphere_ohc_zj": 7.162,
+    "northern_hemisphere_ohc_se_zj": 0.114,
+    "southern_hemisphere_ohc_zj": 7.424,
+    "southern_hemisphere_ohc_se_zj": 0.143
+  },
+  {
+    "year": 2010,
+    "source_year_midpoint": 2010.5,
+    "world_ohc_zj": 15.229,
+    "world_ohc_se_zj": 0.248,
+    "northern_hemisphere_ohc_zj": 7.36,
+    "northern_hemisphere_ohc_se_zj": 0.108,
+    "southern_hemisphere_ohc_zj": 7.869,
+    "southern_hemisphere_ohc_se_zj": 0.14
+  },
+  {
+    "year": 2011,
+    "source_year_midpoint": 2011.5,
+    "world_ohc_zj": 16.681,
+    "world_ohc_se_zj": 0.233,
+    "northern_hemisphere_ohc_zj": 7.768,
+    "northern_hemisphere_ohc_se_zj": 0.103,
+    "southern_hemisphere_ohc_zj": 8.913,
+    "southern_hemisphere_ohc_se_zj": 0.131
+  },
+  {
+    "year": 2012,
+    "source_year_midpoint": 2012.5,
+    "world_ohc_zj": 17.563,
+    "world_ohc_se_zj": 0.216,
+    "northern_hemisphere_ohc_zj": 7.805,
+    "northern_hemisphere_ohc_se_zj": 0.101,
+    "southern_hemisphere_ohc_zj": 9.758,
+    "southern_hemisphere_ohc_se_zj": 0.115
+  },
+  {
+    "year": 2013,
+    "source_year_midpoint": 2013.5,
+    "world_ohc_zj": 19.004,
+    "world_ohc_se_zj": 0.198,
+    "northern_hemisphere_ohc_zj": 8.26,
+    "northern_hemisphere_ohc_se_zj": 0.088,
+    "southern_hemisphere_ohc_zj": 10.745,
+    "southern_hemisphere_ohc_se_zj": 0.11
+  },
+  {
+    "year": 2014,
+    "source_year_midpoint": 2014.5,
+    "world_ohc_zj": 20.001,
+    "world_ohc_se_zj": 0.194,
+    "northern_hemisphere_ohc_zj": 8.851,
+    "northern_hemisphere_ohc_se_zj": 0.083,
+    "southern_hemisphere_ohc_zj": 11.149,
+    "southern_hemisphere_ohc_se_zj": 0.111
+  },
+  {
+    "year": 2015,
+    "source_year_midpoint": 2015.5,
+    "world_ohc_zj": 21.074,
+    "world_ohc_se_zj": 0.19,
+    "northern_hemisphere_ohc_zj": 9.359,
+    "northern_hemisphere_ohc_se_zj": 0.081,
+    "southern_hemisphere_ohc_zj": 11.714,
+    "southern_hemisphere_ohc_se_zj": 0.108
+  },
+  {
+    "year": 2016,
+    "source_year_midpoint": 2016.5,
+    "world_ohc_zj": 21.879,
+    "world_ohc_se_zj": 0.184,
+    "northern_hemisphere_ohc_zj": 9.654,
+    "northern_hemisphere_ohc_se_zj": 0.079,
+    "southern_hemisphere_ohc_zj": 12.225,
+    "southern_hemisphere_ohc_se_zj": 0.104
+  },
+  {
+    "year": 2017,
+    "source_year_midpoint": 2017.5,
+    "world_ohc_zj": 22.147,
+    "world_ohc_se_zj": 0.19,
+    "northern_hemisphere_ohc_zj": 9.599,
+    "northern_hemisphere_ohc_se_zj": 0.088,
+    "southern_hemisphere_ohc_zj": 12.548,
+    "southern_hemisphere_ohc_se_zj": 0.102
+  },
+  {
+    "year": 2018,
+    "source_year_midpoint": 2018.5,
+    "world_ohc_zj": 23.294,
+    "world_ohc_se_zj": 0.211,
+    "northern_hemisphere_ohc_zj": 10.883,
+    "northern_hemisphere_ohc_se_zj": 0.085,
+    "southern_hemisphere_ohc_zj": 12.411,
+    "southern_hemisphere_ohc_se_zj": 0.125
+  },
+  {
+    "year": 2019,
+    "source_year_midpoint": 2019.5,
+    "world_ohc_zj": 24.442,
+    "world_ohc_se_zj": 0.179,
+    "northern_hemisphere_ohc_zj": 11.444,
+    "northern_hemisphere_ohc_se_zj": 0.085,
+    "southern_hemisphere_ohc_zj": 12.999,
+    "southern_hemisphere_ohc_se_zj": 0.094
+  },
+  {
+    "year": 2020,
+    "source_year_midpoint": 2020.5,
+    "world_ohc_zj": 25.186,
+    "world_ohc_se_zj": 0.183,
+    "northern_hemisphere_ohc_zj": 11.596,
+    "northern_hemisphere_ohc_se_zj": 0.087,
+    "southern_hemisphere_ohc_zj": 13.591,
+    "southern_hemisphere_ohc_se_zj": 0.095
+  },
+  {
+    "year": 2021,
+    "source_year_midpoint": 2021.5,
+    "world_ohc_zj": 26.648,
+    "world_ohc_se_zj": 0.19,
+    "northern_hemisphere_ohc_zj": 12.273,
+    "northern_hemisphere_ohc_se_zj": 0.091,
+    "southern_hemisphere_ohc_zj": 14.376,
+    "southern_hemisphere_ohc_se_zj": 0.099
+  }
+]
