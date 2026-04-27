@@ -744,7 +744,7 @@ Each record uses the shape below:
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/jorec806/whale_api.git
 cd whale_api
 ```
 
