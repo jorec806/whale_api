@@ -5,10 +5,12 @@ from datetime import date as date_type
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "app" / "data"
+LOCAL_FRONTEND_ORIGIN_REGEX = r"^https?://(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$"
 
 DATASET_FILES = {
     "/ocean-warming": "ocean_warming.json",
@@ -32,6 +34,14 @@ COMMERCIAL_WHALING_SPECIES = {
 }
 
 app = FastAPI(title="Whale Migration API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=LOCAL_FRONTEND_ORIGIN_REGEX,
+    allow_credentials=False,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 
 def load_dataset(filename: str) -> list[dict]:

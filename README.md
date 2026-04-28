@@ -1,26 +1,80 @@
 # Whale Migration API
 
-Local FastAPI project for serving curated ocean and whale-related datasets for a prototype focused on whale migration, ocean conditions, and human pressures in the Southern Hemisphere.
+Local read-only FastAPI service for curated ocean and whale-related datasets.
+It is designed for a university prototype where the API and frontend run on the same kiosk device using different local ports.
 
-## Overview
+The API serves generated JSON files from source CSV datasets. It does not require a database, cloud deployment, authentication, or write operations.
 
-This repository turns source CSV files into clean JSON payloads and exposes them through a read-only API.
+## Quick Start
 
-The current API focuses on four datasets:
+Create and activate a virtual environment:
 
-- `ocean_warming`: annual ocean heat content series with global and hemispheric values
-- `ocean_acidification`: environmental observations such as pH, SST, bleaching severity, and marine heatwaves
-- `commercial_whaling`: Southern Hemisphere subset of historical whale catch records
-- `marine_microplastics`: Southern Hemisphere subset of geolocated microplastic measurements
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-The API is intentionally read-only. All public routes are `GET` endpoints designed for data display, prototyping, and visualization.
+Install dependencies:
 
-## Features
+```bash
+pip install -r requirements.txt
+```
 
-- FastAPI-based local API
-- CSV to JSON build pipeline
-- Ocean warming routes by full series, by year, and by year range
-- Read-only dataset responses ready for frontend consumption
+Run the API:
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+By default, the API runs at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Useful local URLs:
+
+```text
+Root:   http://127.0.0.1:8000/
+Health: http://127.0.0.1:8000/health
+Docs:   http://127.0.0.1:8000/docs
+```
+
+To use another API port:
+
+```bash
+python -m uvicorn app.main:app --reload --port 9000
+```
+
+## Frontend Integration
+
+Expected local setup:
+
+```text
+API:      http://127.0.0.1:8000
+Frontend: http://localhost:3000
+```
+
+The frontend should call the API with an absolute URL:
+
+```js
+fetch("http://127.0.0.1:8000/ocean-warming/2020")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
+```
+
+The API is configured for local browser CORS. It accepts frontend requests from local origins on any port:
+
+```text
+http://localhost:any-port
+http://127.0.0.1:any-port
+http://[::1]:any-port
+```
+
+This supports common frontend ports such as `3000`, `5173`, and `5500` without allowing arbitrary external websites.
+
+Avoid opening the frontend directly with `file://`. Use a local frontend server instead.
 
 ## Project Structure
 
@@ -47,133 +101,104 @@ whale_api/
 
 ## Dataset Pipeline
 
-The project keeps source files and API-ready files separate.
+The CSV files in `datasets/` are the source of truth.
 
-1. Source CSV files live in `datasets/`
-2. `scripts/build_datasets.py` cleans and transforms those files
-3. Final JSON payloads are written to `app/data/`
-4. FastAPI serves the JSON through `GET` endpoints
+Pipeline:
 
-This keeps the original files untouched while giving the API a fast and simple JSON layer.
+```text
+datasets/*.csv -> scripts/build_datasets.py -> app/data/*.json -> FastAPI endpoints
+```
+
+Regenerate API JSON files after changing any source CSV:
+
+```bash
+python3 scripts/build_datasets.py
+```
+
+Current generated outputs:
+
+```text
+ocean_warming.json:          65 records
+ocean_acidification.json:   500 records
+commercial_whaling.json:    100 records
+marine_microplastics.json:  648 records
+```
+
+Do not edit `app/data/*.json` by hand unless you intentionally want to bypass the CSV build pipeline.
 
 ## Active Datasets
 
-### Ocean Warming
+| Dataset | Source CSV | API JSON | Scope |
+| --- | --- | --- | --- |
+| `ocean_warming` | `datasets/ocean_warming.csv` | `app/data/ocean_warming.json` | Annual ocean heat content values, 1957-2021 |
+| `ocean_acidification` | `datasets/ocean_acidification.csv` | `app/data/ocean_acidification.json` | Environmental observations, 2015-2023 |
+| `commercial_whaling` | `datasets/whale_catch.csv` | `app/data/commercial_whaling.json` | Southern Hemisphere whale catch records, 1900-1999 |
+| `marine_microplastics` | `datasets/marine_microplastics.csv` | `app/data/marine_microplastics.json` | Southern Hemisphere measurements using `pieces/m3`, 2001-2020 |
 
-Source file:
-- `datasets/ocean_warming.csv`
+Notes:
 
-API file:
-- `app/data/ocean_warming.json`
-
-Useful fields:
-- `year`
-- `source_year_midpoint`
-- `world_ohc_zj`
-- `world_ohc_se_zj`
-- `northern_hemisphere_ohc_zj`
-- `northern_hemisphere_ohc_se_zj`
-- `southern_hemisphere_ohc_zj`
-- `southern_hemisphere_ohc_se_zj`
-
-Note:
-- The source stores annual values as midpoints like `1957.5`
-- The API exposes a cleaner integer `year` for lookups such as `/ocean-warming/1957`
-
-### Ocean Acidification
-
-Source file:
-- `datasets/ocean_acidification.csv`
-
-API file:
-- `app/data/ocean_acidification.json`
-
-Useful fields:
-- `date`
-- `location`
-- `latitude`
-- `longitude`
-- `sst_c`
-- `ph_level`
-- `bleaching_severity`
-- `species_observed`
-- `marine_heatwave`
-
-### Commercial Whaling
-
-Source file:
-- `datasets/whale_catch.csv`
-
-API file:
-- `app/data/commercial_whaling.json`
-
-Cleaning rule:
-- only `Southern Hemisphere` rows are kept
-
-Useful fields:
-- `year`
-- `all_whale_species`
-- `humpback_whale`
-- `minke_whale`
-- `blue_whale`
-- `fin_whale`
-- other species-specific columns
-
-### Marine Microplastics
-
-Source file:
-- `datasets/marine_microplastics.csv`
-
-API file:
-- `app/data/marine_microplastics.json`
-
-Cleaning rules:
-- only Southern Hemisphere rows are kept
-- only records with unit `pieces/m3` are kept
-
-Useful fields:
-- `ocean`
-- `region`
-- `subregion`
-- `sampling_method`
-- `measurement_pieces_m3`
-- `density_class`
-- `latitude`
-- `longitude`
-- `date`
+- `commercial_whaling` keeps only `Southern Hemisphere` rows from the source CSV.
+- `marine_microplastics` keeps only Southern Hemisphere rows with unit `pieces/m3`.
+- `ocean_acidification` currently includes environmental observations from both hemispheres.
+- `ocean_warming` exposes integer years while preserving the source midpoint field as `source_year_midpoint`.
 
 ## API Endpoints
 
-### Base Routes
+Base routes:
 
-- `GET /`
-- `GET /health`
-- `GET /datasets`
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/` | API landing response |
+| `GET` | `/health` | Health check |
+| `GET` | `/datasets` | Available dataset endpoint names |
 
-### Dataset Routes
+Ocean warming:
 
-- `GET /ocean-warming`
-- `GET /ocean-warming/{year}`
-- `GET /ocean-warming/range?start_year=1957&end_year=1965`
-- `GET /ocean-acidification`
-- `GET /ocean-acidification/date/{date}`
-- `GET /ocean-acidification/range?start_date=2015-01-01&end_date=2015-01-20`
-- `GET /ocean-acidification/location/{location}`
-- `GET /ocean-acidification/locations`
-- `GET /commercial-whaling`
-- `GET /commercial-whaling/{year}`
-- `GET /commercial-whaling/range?start_year=1900&end_year=1902`
-- `GET /commercial-whaling/species/{species}`
-- `GET /commercial-whaling/species/{species}/range?start_year=1900&end_year=1904`
-- `GET /marine-microplastics`
-- `GET /marine-microplastics/date/{date}`
-- `GET /marine-microplastics/range?start_date=2015-08-11&end_date=2017-01-21`
-- `GET /marine-microplastics/ocean/{ocean}`
-- `GET /marine-microplastics/oceans`
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/ocean-warming` | Full annual series |
+| `GET` | `/ocean-warming/{year}` | Single year |
+| `GET` | `/ocean-warming/range?start_year=2018&end_year=2020` | Year range |
 
-## Example Responses
+Ocean acidification:
 
-### `GET /ocean-warming/2020`
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/ocean-acidification?limit=10` | Records, optionally limited |
+| `GET` | `/ocean-acidification/date/{date}` | Records for one `YYYY-MM-DD` date |
+| `GET` | `/ocean-acidification/range?start_date=2015-01-01&end_date=2015-01-20&limit=10` | Date range, optionally limited |
+| `GET` | `/ocean-acidification/location/{location}?limit=10` | Records for one location |
+| `GET` | `/ocean-acidification/locations` | Available locations |
+
+Commercial whaling:
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/commercial-whaling` | Full Southern Hemisphere series |
+| `GET` | `/commercial-whaling/{year}` | Single year |
+| `GET` | `/commercial-whaling/range?start_year=1900&end_year=1904` | Year range |
+| `GET` | `/commercial-whaling/species/{species}` | Full series for one species field |
+| `GET` | `/commercial-whaling/species/{species}/range?start_year=1900&end_year=1904` | Species series by year range |
+
+Marine microplastics:
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/marine-microplastics?limit=10` | Records, optionally limited |
+| `GET` | `/marine-microplastics/date/{date}` | Records for one `YYYY-MM-DD` date |
+| `GET` | `/marine-microplastics/range?start_date=2015-08-11&end_date=2017-01-21&limit=10` | Date range, optionally limited |
+| `GET` | `/marine-microplastics/ocean/{ocean}?limit=10` | Records for one ocean |
+| `GET` | `/marine-microplastics/oceans` | Available oceans |
+
+## Common Request Examples
+
+Get one ocean warming record:
+
+```bash
+curl http://127.0.0.1:8000/ocean-warming/2020
+```
+
+Response shape:
 
 ```json
 {
@@ -188,627 +213,86 @@ Useful fields:
 }
 ```
 
-### `GET /ocean-warming/range?start_year=2018&end_year=2020`
+Get a limited microplastics response:
 
-```json
-[
-  {
-    "year": 2018,
-    "source_year_midpoint": 2018.5,
-    "world_ohc_zj": 23.294,
-    "southern_hemisphere_ohc_zj": 12.411
-  },
-  {
-    "year": 2019,
-    "source_year_midpoint": 2019.5,
-    "world_ohc_zj": 24.442,
-    "southern_hemisphere_ohc_zj": 12.999
-  },
-  {
-    "year": 2020,
-    "source_year_midpoint": 2020.5,
-    "world_ohc_zj": 25.186,
-    "southern_hemisphere_ohc_zj": 13.591
-  }
-]
+```bash
+curl "http://127.0.0.1:8000/marine-microplastics?limit=2"
 ```
 
-### `GET /ocean-acidification?limit=2`
+Get available commercial whaling species fields:
 
-```json
-[
-  {
-    "date": "2015-01-01",
-    "location": "Red Sea",
-    "latitude": 20.0248,
-    "longitude": 38.4931,
-    "sst_c": 29.47,
-    "ph_level": 8.107,
-    "bleaching_severity": "None",
-    "species_observed": 106,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-01-07",
-    "location": "Great Barrier Reef",
-    "latitude": -18.2988,
-    "longitude": 147.7782,
-    "sst_c": 29.65,
-    "ph_level": 8.004,
-    "bleaching_severity": "High",
-    "species_observed": 116,
-    "marine_heatwave": false
-  }
-]
+```text
+all_whale_species
+blue_whale
+brydes_whale
+fin_whale
+gray_whale
+humpback_whale
+minke_whale
+right_whale
+sei_whale
+sperm_whale
+unspecified_other_species
 ```
 
-### `GET /ocean-acidification/date/2015-01-07`
+Example species request:
 
-```json
-[
-  {
-    "date": "2015-01-07",
-    "location": "Great Barrier Reef",
-    "latitude": -18.2988,
-    "longitude": 147.7782,
-    "sst_c": 29.65,
-    "ph_level": 8.004,
-    "bleaching_severity": "High",
-    "species_observed": 116,
-    "marine_heatwave": false
-  }
-]
+```bash
+curl "http://127.0.0.1:8000/commercial-whaling/species/humpback_whale/range?start_year=1900&end_year=1904"
 ```
 
-### `GET /ocean-acidification/range?start_date=2015-01-01&end_date=2015-01-20`
+## Error Behavior
 
-```json
-[
-  {
-    "date": "2015-01-01",
-    "location": "Red Sea",
-    "latitude": 20.0248,
-    "longitude": 38.4931,
-    "sst_c": 29.47,
-    "ph_level": 8.107,
-    "bleaching_severity": "None",
-    "species_observed": 106,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-01-07",
-    "location": "Great Barrier Reef",
-    "latitude": -18.2988,
-    "longitude": 147.7782,
-    "sst_c": 29.65,
-    "ph_level": 8.004,
-    "bleaching_severity": "High",
-    "species_observed": 116,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-01-14",
-    "location": "Caribbean Sea",
-    "latitude": 14.9768,
-    "longitude": -75.0233,
-    "sst_c": 28.86,
-    "ph_level": 7.947,
-    "bleaching_severity": "High",
-    "species_observed": 90,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-01-20",
-    "location": "Great Barrier Reef",
-    "latitude": -18.3152,
-    "longitude": 147.6486,
-    "sst_c": 28.97,
-    "ph_level": 7.995,
-    "bleaching_severity": "Medium",
-    "species_observed": 94,
-    "marine_heatwave": false
-  }
-]
+The API uses standard HTTP responses:
+
+| Status | When it happens |
+| --- | --- |
+| `200` | Request succeeded |
+| `400` | Invalid input, such as a reversed date or year range |
+| `404` | No matching record or unsupported path value |
+| `422` | FastAPI validation error, such as a missing required query parameter |
+| `500` | Generated JSON file is missing valid structure |
+
+Example:
+
+```bash
+curl http://127.0.0.1:8000/ocean-warming/1900
 ```
-
-### `GET /ocean-acidification/location/Great%20Barrier%20Reef?limit=3`
-
-```json
-[
-  {
-    "date": "2015-01-07",
-    "location": "Great Barrier Reef",
-    "latitude": -18.2988,
-    "longitude": 147.7782,
-    "sst_c": 29.65,
-    "ph_level": 8.004,
-    "bleaching_severity": "High",
-    "species_observed": 116,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-01-20",
-    "location": "Great Barrier Reef",
-    "latitude": -18.3152,
-    "longitude": 147.6486,
-    "sst_c": 28.97,
-    "ph_level": 7.995,
-    "bleaching_severity": "Medium",
-    "species_observed": 94,
-    "marine_heatwave": false
-  },
-  {
-    "date": "2015-05-12",
-    "location": "Great Barrier Reef",
-    "latitude": -18.3579,
-    "longitude": 147.6782,
-    "sst_c": 27.99,
-    "ph_level": 8.02,
-    "bleaching_severity": "None",
-    "species_observed": 122,
-    "marine_heatwave": false
-  }
-]
-```
-
-### `GET /ocean-acidification/locations`
-
-```json
-[
-  "Caribbean Sea",
-  "Galápagos",
-  "Great Barrier Reef",
-  "Hawaiian Islands",
-  "Maldives",
-  "Red Sea",
-  "South China Sea"
-]
-```
-
-### `GET /commercial-whaling/1904`
 
 ```json
 {
-  "hemisphere": "Southern Hemisphere",
-  "code": "OWID_SH",
-  "year": 1904,
-  "all_whale_species": 203,
-  "brydes_whale": 0,
-  "gray_whale": null,
-  "minke_whale": 0,
-  "sei_whale": 0,
-  "unspecified_other_species": 0,
-  "blue_whale": 11,
-  "fin_whale": 4,
-  "humpback_whale": 188,
-  "right_whale": 0,
-  "sperm_whale": 0
+  "detail": "No ocean warming record found for year 1900."
 }
 ```
 
-### `GET /commercial-whaling/range?start_year=1900&end_year=1902`
+## Verification
 
-```json
-[
-  {
-    "hemisphere": "Southern Hemisphere",
-    "code": "OWID_SH",
-    "year": 1900,
-    "all_whale_species": 8,
-    "brydes_whale": 0,
-    "gray_whale": null,
-    "minke_whale": 0,
-    "sei_whale": 0,
-    "unspecified_other_species": 0,
-    "blue_whale": 0,
-    "fin_whale": 0,
-    "humpback_whale": 8,
-    "right_whale": 0,
-    "sperm_whale": 0
-  },
-  {
-    "hemisphere": "Southern Hemisphere",
-    "code": "OWID_SH",
-    "year": 1901,
-    "all_whale_species": 8,
-    "brydes_whale": 0,
-    "gray_whale": null,
-    "minke_whale": 0,
-    "sei_whale": 0,
-    "unspecified_other_species": 0,
-    "blue_whale": 0,
-    "fin_whale": 0,
-    "humpback_whale": 8,
-    "right_whale": 0,
-    "sperm_whale": 0
-  },
-  {
-    "hemisphere": "Southern Hemisphere",
-    "code": "OWID_SH",
-    "year": 1902,
-    "all_whale_species": 8,
-    "brydes_whale": 0,
-    "gray_whale": null,
-    "minke_whale": 0,
-    "sei_whale": 0,
-    "unspecified_other_species": 0,
-    "blue_whale": 0,
-    "fin_whale": 0,
-    "humpback_whale": 8,
-    "right_whale": 0,
-    "sperm_whale": 0
-  }
-]
+Basic local checks:
+
+```bash
+python -m compileall app scripts
+python3 scripts/build_datasets.py
 ```
 
-### `GET /commercial-whaling/species/humpback_whale`
+With the server running:
 
-This route returns the full Southern Hemisphere time series for `humpback_whale` from `1900` to `1999`.
-Each record uses the shape below:
+```bash
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/datasets
+```
+
+Expected health response:
 
 ```json
 {
-  "year": 1900,
-  "hemisphere": "Southern Hemisphere",
-  "species": "humpback_whale",
-  "catch_count": 8
+  "status": "ok"
 }
 ```
 
-### `GET /commercial-whaling/species/humpback_whale/range?start_year=1900&end_year=1904`
+## Current Scope
 
-```json
-[
-  {
-    "year": 1900,
-    "hemisphere": "Southern Hemisphere",
-    "species": "humpback_whale",
-    "catch_count": 8
-  },
-  {
-    "year": 1901,
-    "hemisphere": "Southern Hemisphere",
-    "species": "humpback_whale",
-    "catch_count": 8
-  },
-  {
-    "year": 1902,
-    "hemisphere": "Southern Hemisphere",
-    "species": "humpback_whale",
-    "catch_count": 8
-  },
-  {
-    "year": 1903,
-    "hemisphere": "Southern Hemisphere",
-    "species": "humpback_whale",
-    "catch_count": 9
-  },
-  {
-    "year": 1904,
-    "hemisphere": "Southern Hemisphere",
-    "species": "humpback_whale",
-    "catch_count": 188
-  }
-]
-```
-
-### `GET /marine-microplastics?limit=2`
-
-```json
-[
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.018,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -31.696,
-    "longitude": -48.56,
-    "date": "2015-08-11"
-  },
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.001,
-    "unit": "pieces/m3",
-    "density_range": "0.0005-0.005",
-    "density_class": "Low",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -40.3233,
-    "longitude": -9.8962,
-    "date": "2017-01-21"
-  }
-]
-```
-
-### `GET /marine-microplastics/date/2015-08-11`
-
-```json
-[
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.018,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -31.696,
-    "longitude": -48.56,
-    "date": "2015-08-11"
-  }
-]
-```
-
-### `GET /marine-microplastics/range?start_date=2015-08-11&end_date=2017-01-21&limit=5`
-
-```json
-[
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.018,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -31.696,
-    "longitude": -48.56,
-    "date": "2015-08-11"
-  },
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.001,
-    "unit": "pieces/m3",
-    "density_range": "0.0005-0.005",
-    "density_class": "Low",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -40.3233,
-    "longitude": -9.8962,
-    "date": "2017-01-21"
-  },
-  {
-    "ocean": "Pacific Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "AVANI net",
-    "measurement_pieces_m3": 0.085555,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Eriksen et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2017.09.058",
-    "organization": "5 Gyres Institute",
-    "keywords": "AVANI Net; SV Mir; RV Cabo de Hornos",
-    "accession_number": "275967",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:275967",
-    "latitude": -27.013,
-    "longitude": -107.57014,
-    "date": "2015-10-27"
-  },
-  {
-    "ocean": "Pacific Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Neuston net",
-    "measurement_pieces_m3": 0.056245,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Eriksen et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2017.09.058",
-    "organization": "5 Gyres Institute",
-    "keywords": "AVANI Net; SV Mir; RV Cabo de Hornos",
-    "accession_number": "275967",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:275967",
-    "latitude": -26.46396,
-    "longitude": -105.36589,
-    "date": "2015-11-03"
-  },
-  {
-    "ocean": "Pacific Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Manta net",
-    "measurement_pieces_m3": 0.004951,
-    "unit": "pieces/m3",
-    "density_range": "0.0005-0.005",
-    "density_class": "Low",
-    "short_reference": "Faure et al.2015",
-    "doi": "https://doi.org/10.1007/s11356-015-4453-3",
-    "organization": "Oceaneye Association,  Switzerland",
-    "keywords": "Oceaneye Association; Citizen Science",
-    "accession_number": "276422",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:276422",
-    "latitude": -45.15,
-    "longitude": -73.635,
-    "date": "2016-01-21"
-  }
-]
-```
-
-### `GET /marine-microplastics/ocean/Atlantic%20Ocean?limit=3`
-
-```json
-[
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.018,
-    "unit": "pieces/m3",
-    "density_range": "0.005-1",
-    "density_class": "Medium",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -31.696,
-    "longitude": -48.56,
-    "date": "2015-08-11"
-  },
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Grab sample",
-    "measurement_pieces_m3": 0.001,
-    "unit": "pieces/m3",
-    "density_range": "0.0005-0.005",
-    "density_class": "Low",
-    "short_reference": "Barrows et al.2018",
-    "doi": "https://doi.org/10.1016/j.envpol.2018.02.062",
-    "organization": "Adventure Scientist",
-    "keywords": "Adventure Scientist/Citizen Science",
-    "accession_number": "211009",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:211009",
-    "latitude": -40.3233,
-    "longitude": -9.8962,
-    "date": "2017-01-21"
-  },
-  {
-    "ocean": "Atlantic Ocean",
-    "region": null,
-    "subregion": null,
-    "sampling_method": "Neuston net",
-    "measurement_pieces_m3": 3.218619,
-    "unit": "pieces/m3",
-    "density_range": "1-10",
-    "density_class": "High",
-    "short_reference": "Eriksen et al.2014",
-    "doi": "https://doi.org/10.1371/journal.pone.0111913",
-    "organization": "5 Gyres Institute",
-    "keywords": "SV Mir; ORV Alguita; SV Sea Dragon; RV Stad Amsterdam",
-    "accession_number": "275968",
-    "accession_link": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:275968",
-    "latitude": -30.5678,
-    "longitude": -22.9272,
-    "date": "2011-01-23"
-  }
-]
-```
-
-### `GET /marine-microplastics/oceans`
-
-```json
-[
-  "Atlantic Ocean",
-  "Indian Ocean",
-  "Pacific Ocean"
-]
-```
-
-## Local Development
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/jorec806/whale_api.git
-cd whale_api
-```
-
-### 2. Create a virtual environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run the API
-
-Use the module form so the project always runs with the Python interpreter from the virtual environment.
-
-```bash
-python -m uvicorn app.main:app --reload
-```
-
-By default, Uvicorn serves the API on port `8000`.
-
-If you need a different port, start the server with `--port`:
-
-```bash
-python -m uvicorn app.main:app --reload --port 9000
-```
-
-### 5. Open the API locally
-
-- Root: `http://127.0.0.1:8000/`
-- Docs: `http://127.0.0.1:8000/docs`
-
-### Minimal JavaScript example
-
-The simplest possible way to consume the API from frontend JavaScript is:
-
-```js
-fetch("http://127.0.0.1:8000/ocean-warming/2020")
-  .then((response) => response.json())
-  .then((data) => console.log(data))
-  .catch((error) => console.error(error));
-```
-
-This example uses the default local Uvicorn port `8000`.
-If you start the server on a different port, update the URL accordingly.
-
-For pages served by the same FastAPI app, a relative request is more portable:
-
-```js
-fetch("/ocean-warming/2020")
-  .then((response) => response.json())
-  .then((data) => console.log(data))
-  .catch((error) => console.error(error));
-```
-
-## Current Status
-
-- The four main datasets are already cleaned into JSON
-- `ocean-warming` now supports lookup by year and by range
-- `ocean-acidification` now supports lookup by date, date range, location, and available locations
-- `commercial-whaling` now supports lookup by year, by range, and by species
-- `marine-microplastics` now supports lookup by date, date range, ocean, and available oceans
+- The API is read-only.
+- The intended deployment is local kiosk usage, not cloud hosting.
+- The frontend and backend are expected to run on the same device.
+- FastAPI interactive docs are available at `/docs`.
+- Source CSV files remain unchanged by the API at runtime.
