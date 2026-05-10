@@ -83,6 +83,7 @@ whale_api/
 ├── app/
 │   ├── data/
 │   │   ├── commercial_whaling.json
+│   │   ├── marine_pollution_incidents.json
 │   │   ├── marine_microplastics.json
 │   │   ├── ocean_acidification.json
 │   │   └── ocean_warming.json
@@ -91,6 +92,7 @@ whale_api/
 │   ├── marine_microplastics.csv
 │   ├── ocean_acidification.csv
 │   ├── ocean_warming.csv
+│   ├── 6d5865f0-b7fc-4770-a303-a0b1f85f661f.csv
 │   └── whale_catch.csv
 ├── scripts/
 │   └── build_datasets.py
@@ -118,10 +120,11 @@ python3 scripts/build_datasets.py
 Current generated outputs:
 
 ```text
-ocean_warming.json:          65 records
-ocean_acidification.json:   500 records
-commercial_whaling.json:    100 records
-marine_microplastics.json:  648 records
+ocean_warming.json:                 65 records
+ocean_acidification.json:          500 records
+commercial_whaling.json:           100 records
+marine_microplastics.json:         648 records
+marine_pollution_incidents.json:    89 records
 ```
 
 Do not edit `app/data/*.json` by hand unless you intentionally want to bypass the CSV build pipeline.
@@ -134,11 +137,13 @@ Do not edit `app/data/*.json` by hand unless you intentionally want to bypass th
 | `ocean_acidification` | `datasets/ocean_acidification.csv` | `app/data/ocean_acidification.json` | Environmental observations, 2015-2023 |
 | `commercial_whaling` | `datasets/whale_catch.csv` | `app/data/commercial_whaling.json` | Southern Hemisphere whale catch records, 1900-1999 |
 | `marine_microplastics` | `datasets/marine_microplastics.csv` | `app/data/marine_microplastics.json` | Southern Hemisphere measurements using `pieces/m3`, 2001-2020 |
+| `marine_pollution_incidents` | `datasets/6d5865f0-b7fc-4770-a303-a0b1f85f661f.csv` | `app/data/marine_pollution_incidents.json` | Marine pollution incident records, 2019-2020 |
 
 Notes:
 
 - `commercial_whaling` keeps only `Southern Hemisphere` rows from the source CSV.
 - `marine_microplastics` keeps only Southern Hemisphere rows with unit `pieces/m3`.
+- `marine_pollution_incidents` normalizes dates to `YYYY-MM-DD`, trims text fields, normalizes simple casing, and excludes the source `Estimated Litres` column because it mixes volume, area, unknown values, and free text.
 - `ocean_acidification` currently includes environmental observations from both hemispheres.
 - `ocean_warming` exposes integer years while preserving the source midpoint field as `source_year_midpoint`.
 
@@ -190,6 +195,17 @@ Marine microplastics:
 | `GET` | `/marine-microplastics/ocean/{ocean}?limit=10` | Records for one ocean |
 | `GET` | `/marine-microplastics/oceans` | Available oceans |
 
+Marine pollution incidents:
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/marine-pollution-incidents?limit=10` | Records, optionally limited |
+| `GET` | `/marine-pollution-incidents/date/{date}` | Records for one `YYYY-MM-DD` date |
+| `GET` | `/marine-pollution-incidents/range?start_date=2019-07-01&end_date=2020-06-29&limit=10` | Date range, optionally limited |
+| `GET` | `/marine-pollution-incidents/region/{region}?limit=10` | Records for one region |
+| `GET` | `/marine-pollution-incidents/pollutant/{pollutant}?limit=10` | Records for one pollutant |
+| `GET` | `/marine-pollution-incidents/source/{source}?limit=10` | Records for one source |
+
 ## Common Request Examples
 
 Get one ocean warming record:
@@ -198,7 +214,7 @@ Get one ocean warming record:
 curl http://127.0.0.1:8000/ocean-warming/2020
 ```
 
-Response shape:
+Single record shape:
 
 ```json
 {
@@ -241,6 +257,36 @@ Example species request:
 curl "http://127.0.0.1:8000/commercial-whaling/species/humpback_whale/range?start_year=1900&end_year=1904"
 ```
 
+Get a limited marine pollution incidents response:
+
+```bash
+curl "http://127.0.0.1:8000/marine-pollution-incidents?limit=2"
+```
+
+Response shape:
+
+```json
+{
+  "id": 1,
+  "date": "2019-07-01",
+  "region": "Brisbane",
+  "source": "Ship",
+  "ship_type": "Recreational",
+  "area": "Coastal Waters",
+  "location": "Southport Yacht Club, Southport",
+  "pollutant": "Diesel"
+}
+```
+
+Filter marine pollution incidents:
+
+```bash
+curl "http://127.0.0.1:8000/marine-pollution-incidents/range?start_date=2019-07-01&end_date=2019-07-31"
+curl "http://127.0.0.1:8000/marine-pollution-incidents/region/Brisbane?limit=5"
+curl "http://127.0.0.1:8000/marine-pollution-incidents/pollutant/Diesel?limit=5"
+curl "http://127.0.0.1:8000/marine-pollution-incidents/source/Ship?limit=5"
+```
+
 ## Error Behavior
 
 The API uses standard HTTP responses:
@@ -279,6 +325,8 @@ With the server running:
 ```bash
 curl http://127.0.0.1:8000/health
 curl http://127.0.0.1:8000/datasets
+curl "http://127.0.0.1:8000/marine-pollution-incidents?limit=2"
+curl "http://127.0.0.1:8000/marine-pollution-incidents/region/Brisbane?limit=2"
 ```
 
 Expected health response:
@@ -296,3 +344,4 @@ Expected health response:
 - The frontend and backend are expected to run on the same device.
 - FastAPI interactive docs are available at `/docs`.
 - Source CSV files remain unchanged by the API at runtime.
+- Marine pollution incident volume/area estimates are intentionally outside the current API contract.

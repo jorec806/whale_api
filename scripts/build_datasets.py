@@ -41,9 +41,20 @@ def parse_iso_date(value: str) -> str:
     return datetime.strptime(value.strip(), "%m/%d/%Y %I:%M:%S %p").date().isoformat()
 
 
+def parse_iso_datetime_date(value: str) -> str:
+    return datetime.fromisoformat(value.strip()).date().isoformat()
+
+
 def normalize_text(value: str) -> str | None:
     cleaned = value.strip()
     return cleaned or None
+
+
+def normalize_title_text(value: str) -> str | None:
+    cleaned = normalize_text(value)
+    if cleaned is None:
+        return None
+    return cleaned.title()
 
 
 def build_ocean_warming() -> list[dict]:
@@ -151,12 +162,31 @@ def build_marine_microplastics() -> list[dict]:
     return cleaned_rows
 
 
+def build_marine_pollution_incidents() -> list[dict]:
+    rows = read_csv(DATASETS_DIR / "6d5865f0-b7fc-4770-a303-a0b1f85f661f.csv")
+
+    return [
+        {
+            "id": parse_int(row["_id"]),
+            "date": parse_iso_datetime_date(row["Date"]),
+            "region": normalize_title_text(row["Region"]),
+            "source": normalize_title_text(row["Source"]),
+            "ship_type": normalize_title_text(row["Ship Type"]),
+            "area": normalize_title_text(row["Area"]),
+            "location": normalize_text(row["Location"]),
+            "pollutant": normalize_title_text(row["Pollutant"]),
+        }
+        for row in rows
+    ]
+
+
 def main() -> None:
     datasets = {
         "ocean_warming.json": build_ocean_warming(),
         "ocean_acidification.json": build_ocean_acidification(),
         "commercial_whaling.json": build_commercial_whaling(),
         "marine_microplastics.json": build_marine_microplastics(),
+        "marine_pollution_incidents.json": build_marine_pollution_incidents(),
     }
 
     for filename, payload in datasets.items():

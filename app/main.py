@@ -17,6 +17,7 @@ DATASET_FILES = {
     "/ocean-acidification": "ocean_acidification.json",
     "/commercial-whaling": "commercial_whaling.json",
     "/marine-microplastics": "marine_microplastics.json",
+    "/marine-pollution-incidents": "marine_pollution_incidents.json",
 }
 
 COMMERCIAL_WHALING_SPECIES = {
@@ -127,6 +128,10 @@ def load_marine_microplastics_dataset() -> list[dict]:
     return load_dataset(DATASET_FILES["/marine-microplastics"])
 
 
+def load_marine_pollution_incidents_dataset() -> list[dict]:
+    return load_dataset(DATASET_FILES["/marine-pollution-incidents"])
+
+
 def validate_iso_date(value: str, field_name: str) -> str:
     try:
         return date_type.fromisoformat(value).isoformat()
@@ -141,6 +146,15 @@ def apply_limit(records: list[dict], limit: int | None) -> list[dict]:
     if limit is None:
         return records
     return records[:limit]
+
+
+def filter_by_text_field(records: list[dict], field_name: str, field_value: str) -> list[dict]:
+    return [
+        record
+        for record in records
+        if record.get(field_name)
+        and record.get(field_name, "").casefold() == field_value.casefold()
+    ]
 
 
 @app.get("/")
@@ -329,6 +343,108 @@ def marine_microplastics_by_ocean(
         raise HTTPException(
             status_code=404,
             detail=f"No marine microplastics records found for ocean '{ocean}'.",
+        )
+
+    return apply_limit(filtered_records, limit)
+
+
+@app.get("/marine-pollution-incidents")
+def marine_pollution_incidents(
+    limit: int | None = Query(None, ge=1, description="Maximum number of records to return"),
+) -> list[dict]:
+    records = load_marine_pollution_incidents_dataset()
+    return apply_limit(records, limit)
+
+
+@app.get("/marine-pollution-incidents/range")
+def marine_pollution_incidents_range(
+    start_date: str = Query(..., description="Start date in YYYY-MM-DD format"),
+    end_date: str = Query(..., description="End date in YYYY-MM-DD format"),
+    limit: int | None = Query(None, ge=1, description="Maximum number of records to return"),
+) -> list[dict]:
+    validated_start_date = validate_iso_date(start_date, "start_date")
+    validated_end_date = validate_iso_date(end_date, "end_date")
+
+    if validated_start_date > validated_end_date:
+        raise HTTPException(status_code=400, detail="start_date cannot be greater than end_date.")
+
+    records = load_marine_pollution_incidents_dataset()
+    filtered_records = [
+        record
+        for record in records
+        if validated_start_date <= record["date"] <= validated_end_date
+    ]
+
+    if not filtered_records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No marine pollution incident records found between {validated_start_date} and {validated_end_date}.",
+        )
+
+    return apply_limit(filtered_records, limit)
+
+
+@app.get("/marine-pollution-incidents/date/{record_date}")
+def marine_pollution_incidents_by_date(record_date: str) -> list[dict]:
+    validated_record_date = validate_iso_date(record_date, "record_date")
+    records = load_marine_pollution_incidents_dataset()
+    filtered_records = [record for record in records if record["date"] == validated_record_date]
+
+    if not filtered_records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No marine pollution incident records found for {validated_record_date}.",
+        )
+
+    return filtered_records
+
+
+@app.get("/marine-pollution-incidents/region/{region}")
+def marine_pollution_incidents_by_region(
+    region: str,
+    limit: int | None = Query(None, ge=1, description="Maximum number of records to return"),
+) -> list[dict]:
+    records = load_marine_pollution_incidents_dataset()
+    filtered_records = filter_by_text_field(records, "region", region)
+
+    if not filtered_records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No marine pollution incident records found for region '{region}'.",
+        )
+
+    return apply_limit(filtered_records, limit)
+
+
+@app.get("/marine-pollution-incidents/pollutant/{pollutant}")
+def marine_pollution_incidents_by_pollutant(
+    pollutant: str,
+    limit: int | None = Query(None, ge=1, description="Maximum number of records to return"),
+) -> list[dict]:
+    records = load_marine_pollution_incidents_dataset()
+    filtered_records = filter_by_text_field(records, "pollutant", pollutant)
+
+    if not filtered_records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No marine pollution incident records found for pollutant '{pollutant}'.",
+        )
+
+    return apply_limit(filtered_records, limit)
+
+
+@app.get("/marine-pollution-incidents/source/{source}")
+def marine_pollution_incidents_by_source(
+    source: str,
+    limit: int | None = Query(None, ge=1, description="Maximum number of records to return"),
+) -> list[dict]:
+    records = load_marine_pollution_incidents_dataset()
+    filtered_records = filter_by_text_field(records, "source", source)
+
+    if not filtered_records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No marine pollution incident records found for source '{source}'.",
         )
 
     return apply_limit(filtered_records, limit)
